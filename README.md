@@ -5,7 +5,7 @@ IslamHub is a modern, responsive website for an online Islamic learning center. 
 ## Features
 
 - **Course Management**: Detailed pages for Quran Reading, Memorization, and Translation/Tafseer courses
-- **Flexible Pricing**: Three-tier payment system ($Flexible, $50, $100)
+- **Flexible Pricing**: Three-tier payment system ($Flexible, $50, $100) // TODO: Clarify flexible pricing details if possible
 - **User Authentication**: Secure login and registration system
 - **Progress Tracking**: Students can track their course progress
 - **Dark Mode**: Toggle between light and dark themes
@@ -25,13 +25,13 @@ IslamHub is a modern, responsive website for an online Islamic learning center. 
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/islamhub.git
+   git clone https://github.com/myselfhsn2/islamhub.git
    cd islamhub
    ```
 
 2. Create a MySQL database named `islamhub`
 
-3. Import the database schema:
+3. Import the database schema and initial data (if included):
    ```bash
    mysql -u username -p islamhub < database/schema.sql
    ```
@@ -46,31 +46,31 @@ IslamHub is a modern, responsive website for an online Islamic learning center. 
 
 5. Set up a virtual host or use PHP's built-in server:
    ```bash
+   # Navigate to the public directory first
    cd public
    php -S localhost:8000
    ```
 
-6. Access the website at http://localhost:8000
+6. Access the website at `http://localhost:8000`
 
 ## Project Structure
 
-- `/app` - Application files
-  - `/controllers` - Controller classes
-  - `/models` - Database models
-  - `/views` - View templates
-- `/database` - Database schema and migrations
-- `/includes` - Configuration and utility files
-- `/public` - Publicly accessible files
-  - `/assets` - CSS, JavaScript, and image files
-  - `index.php` - Entry point
+- `/app` - Core application files
+  - `/controllers` - Handles user requests and interacts with models/views
+  - `/models` - Handles database interactions and business logic
+  - `/views` - Contains presentation templates (HTML/PHP)
+- `/database` - Database schema (`schema.sql`), migrations, and seeds
+- `/includes` - Configuration files (`config.php`) and core utility functions/classes
+- `/public` - Web server root directory
+  - `/assets` - CSS, JavaScript, images, fonts, etc.
 
 ## Features to be Added
 
-- Payment gateway integration
-- Admin dashboard
-- Video conferencing integration
-- Downloadable course materials
-- Mobile app integration
+- Payment gateway integration (e.g., Stripe, PayPal)
+- Comprehensive Admin dashboard for managing users, courses, and payments
+- Video conferencing integration (e.g., Jitsi, Zoom API)
+- Downloadable course materials (PDFs, audio files)
+- Potential mobile app integration (companion app)
 
 ## Contributing
 
@@ -82,4 +82,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Contact
 
-For questions or support, please contact info@islamhub.org 
+For questions or support, please contact: info@islamhub.org
