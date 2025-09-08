@@ -53,7 +53,13 @@ class Controller {
      * @return void
      */
     protected function redirect($url) {
-        header('Location: ' . $url);
+        $targetUrl = $url;
+        if (!preg_match('#^https?://#i', $url)) {
+            // Treat as application-relative path. Prefix with BASE_URL if defined
+            $base = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
+            $targetUrl = $base . $url;
+        }
+        header('Location: ' . $targetUrl);
         exit;
     }
     

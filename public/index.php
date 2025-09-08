@@ -15,10 +15,16 @@ session_start();
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/Router.php';
 
-// Define constants
-define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/islamhub/public');
+// Define constants dynamically based on environment
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
+$scriptName = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : '';
+$basePath = rtrim(str_replace('\\', '/', dirname($scriptName)), '/');
+if ($basePath === '/') { $basePath = ''; }
+
+define('BASE_PATH', $basePath);
+define('BASE_URL', $protocol . '://' . $host . $basePath);
 define('PUBLIC_PATH', __DIR__);
-define('BASE_PATH', '/islamhub/public');
 
 // Create router instance
 $router = new Router();
@@ -31,17 +37,21 @@ $uri = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
 
 // Debug information
-$debug_mode = true; // Set to false in production
+if (!defined('APP_DEBUG')) {
+    define('APP_DEBUG', false);
+}
+$debug_mode = APP_DEBUG; // Set to true for verbose HTML comments
 
-// Remove base path from URI
-$uri = str_replace(BASE_PATH, '', $uri);
+// Normalize URI and remove base path prefix
+$uri = parse_url($uri, PHP_URL_PATH);
+$uri = preg_replace('#^' . preg_quote(BASE_PATH, '#') . '#', '', $uri);
 if (empty($uri)) {
     $uri = '/';
 }
 
-// Debug info
+// Debug info (HTML comments, disabled by default)
 if ($debug_mode) {
-    echo "<!-- Original URI: " . $_SERVER['REQUEST_URI'] . " -->\n";
+    echo "<!-- Original URI: " . ($_SERVER['REQUEST_URI'] ?? '') . " -->\n";
     echo "<!-- Base Path: " . BASE_PATH . " -->\n";
     echo "<!-- Processed URI: $uri -->\n";
     echo "<!-- Method: $method -->\n";
