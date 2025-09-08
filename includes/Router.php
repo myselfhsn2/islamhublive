@@ -52,12 +52,16 @@ class Router {
         }
         
         // Debug output
-        echo "<!-- Dispatching: $method $uri -->\n";
+        if (defined('APP_DEBUG') && APP_DEBUG) {
+            echo "<!-- Dispatching: $method $uri -->\n";
+        }
         
         // Check if route exists directly
         if (isset($this->routes[$method][$uri])) {
             $callback = $this->routes[$method][$uri];
-            echo "<!-- Route match found directly: {$callback[0]}::{$callback[1]} -->\n";
+            if (defined('APP_DEBUG') && APP_DEBUG) {
+                echo "<!-- Route match found directly: {$callback[0]}::{$callback[1]} -->\n";
+            }
             return $this->callAction($callback[0], $callback[1]);
         }
         
@@ -71,7 +75,9 @@ class Router {
             // Convert route pattern to regex
             $routeRegex = $this->convertRouteToRegex($route);
             
-            echo "<!-- Checking route: $route (regex: $routeRegex) against $uri -->\n";
+            if (defined('APP_DEBUG') && APP_DEBUG) {
+                echo "<!-- Checking route: $route (regex: $routeRegex) against $uri -->\n";
+            }
             
             if (preg_match($routeRegex, $uri, $matches)) {
                 // Extract parameters
@@ -85,7 +91,9 @@ class Router {
                     }
                 }
                 
-                echo "<!-- Dynamic route match found: {$callback[0]}::{$callback[1]} with params " . json_encode($params) . " -->\n";
+                if (defined('APP_DEBUG') && APP_DEBUG) {
+                    echo "<!-- Dynamic route match found: {$callback[0]}::{$callback[1]} with params " . json_encode($params) . " -->\n";
+                }
                 
                 // Call the callback with parameters
                 return $this->callAction($callback[0], $callback[1], $params);
@@ -93,13 +101,17 @@ class Router {
         }
         
         // Debug output - list available routes
-        echo "<!-- Available routes for $method method: -->\n";
-        foreach ($this->routes[$method] as $route => $callback) {
-            echo "<!-- - $route => {$callback[0]}::{$callback[1]} -->\n";
+        if (defined('APP_DEBUG') && APP_DEBUG) {
+            echo "<!-- Available routes for $method method: -->\n";
+            foreach ($this->routes[$method] as $route => $callback) {
+                echo "<!-- - $route => {$callback[0]}::{$callback[1]} -->\n";
+            }
         }
         
         // Route not found
-        echo "<!-- No route match found for: $method $uri -->\n";
+        if (defined('APP_DEBUG') && APP_DEBUG) {
+            echo "<!-- No route match found for: $method $uri -->\n";
+        }
         $this->notFound();
     }
     

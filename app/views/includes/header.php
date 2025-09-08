@@ -66,7 +66,9 @@
                         
                         // Get current URI to determine active item
                         $currentUri = $_SERVER['REQUEST_URI'];
-                        $currentUri = preg_replace('#^' . BASE_PATH . '#', '', $currentUri);
+                        if (defined('BASE_PATH')) {
+                            $currentUri = preg_replace('#^' . preg_quote(BASE_PATH, '#') . '#', '', $currentUri);
+                        }
                         if (strpos($currentUri, '?') !== false) {
                             $currentUri = substr($currentUri, 0, strpos($currentUri, '?'));
                         }

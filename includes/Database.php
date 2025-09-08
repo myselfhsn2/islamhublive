@@ -10,7 +10,7 @@ class Database {
     
     private function __construct() {
         // Use the existing config.php file
-        require_once 'config.php';
+        require_once __DIR__ . '/config.php';
         
         $host = DB_HOST;
         $username = DB_USER;
